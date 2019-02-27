@@ -1,0 +1,26 @@
+import astropy
+from astropy.io import fits
+from astropy.modeling import models
+import numpy as np
+import matplotlib
+#get_ipython().magic(u'matplotlib inline')
+from matplotlib import pyplot
+import os
+import sys
+
+mycube='G335_Cont_Subtracted.fits'
+
+subcube = fits.open(mycube)
+data = subcube[0].data
+header = subcube[0].header
+data.shape
+
+rm_cube = data[650:800,:,:]
+rm_cube.shape
+
+rm_cube[rm_cube==0] = np.nan
+
+max_cube=np.nanmax(rm_cube, axis=0)
+
+subcube[0].data=np.float32(max_cube)
+subcube.writeto('G335_peakint2.fits', clobber=True)
