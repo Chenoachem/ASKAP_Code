@@ -1,0 +1,9 @@
+from astropy.io import fits
+from astropy.wcs import WCS
+hdu = fits.open('image.restored.i.SB7797.cube.G335.2+0.1.beam00.fits')[0]
+wcs = WCS(hdu.header)
+# assuming axis #2 (0-indexed) is the Stokes axis of length 1
+wcs = wcs.dropaxis(2)
+data = hdu.data.squeeze()
+data.shape
+fits.writeto('new_image.fits', data, header=wcs.to_header())
