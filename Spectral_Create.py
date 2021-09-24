@@ -17,15 +17,18 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 from spectral_cube import SpectralCube
 
+#In the terminal type in python Spectral_Create.py NameOfFitsCubelet NameofOutputSpectra
+
 mycube=sys.argv[1]
 out=sys.argv[2]
 
-
+#Call in fits data cubelet
 datacube = fits.open(mycube)
 data = datacube[0].data
 header = datacube[0].header
 #print(data.shape)
 
+#Read in and checked the frequency units
 print datacube[0].header['CUNIT3']
 rp = datacube[0].header['CRPIX3']
 rf = datacube[0].header['CRVAL3']
@@ -49,12 +52,14 @@ vels=np.divide(vels,1000)
 #xpix=int(xpix)
 #ypix=int(ypix)
 
+#Create a numpy array with the flux information for each channel at pixel 30.  This value is set based on the centre of the make cubelet script.
 signal=[]
 for x in range(0, 3842):
     value = np.nanmean(data[x,30:30+1,30:30+1])
     #print value
     signal.append(value)
 
+#Find the slice that contains the maximum signal.  Could be changed to min for absorption.
 max_signal=np.nan_to_num(signal)
 max_value = np.amax(max_signal)
 sliced=np.argmax(max_signal, axis=0)
@@ -63,7 +68,7 @@ b=sliced+200
 
 #print(vels[sliced])
 
-
+#Open or create a text file named Sources where the inforamtion will be dropped to create a catalogue.
 file = open("Sources.txt", "a")
 file.write("\n"+"Peak Intensity = "+str(max_signal[sliced]) + "\n"+"Velocity ="+ str(vels[sliced]))
 file.close
