@@ -34,7 +34,7 @@ for line in file:
     GAL=c.galactic
     c_gal=c.transform_to('galactic')
     gala=c_gal.to_string('decimal')
-    #w = wcs.WCS(header, naxis=2)
+    w = wcs.WCS(header, naxis=2)
     #xpix,ypix=c.to_pixel(w,origin=0,mode='wcs')
     #xpix=int(xpix)
     #ypix=int(ypix)
@@ -46,11 +46,11 @@ for line in file:
     #scube.write("Cubelet"+"_"+str(xpix)+"_"+str(ypix)+".fits", overwrite=True)
     
     
-    file = open("Sources_Real.txt", "a")
-    file.write("\n" + RA + "," +DEC + ","+gala )
+    file = open("Sources_1667.txt", "a")
+    file.write("\n" + "RA = " + RA + "," +"Dec = "+DEC + ","+"Gal = "+gala + ","  +" )
     file.close
 
-#OH_data.close()
+OH_data.close()
     #file = open("Sources.txt", "a")
     #file.write(ra,dec,max_signal+ "\n")
     #file.close()
